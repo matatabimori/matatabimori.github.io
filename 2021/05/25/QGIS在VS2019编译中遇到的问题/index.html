@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  
+  <title>QGIS+VS2019编译中遇到的问题 | Angie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本篇记录在网上找不到解决方法的一些我遇到的错误。 根据官方指导完成下载步骤Download and install following packages:    CMake   GNU flex, GNU bison and GIT with cygwin  32bit  or  64bit   OSGeo4W  32bit  or  64bit   ninja  For the QGIS bui">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QGIS+VS2019编译中遇到的问题">
+<meta property="og:url" content="http://example.com/2021/05/25/QGIS%E5%9C%A8VS2019%E7%BC%96%E8%AF%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Angie">
+<meta property="og:description" content="本篇记录在网上找不到解决方法的一些我遇到的错误。 根据官方指导完成下载步骤Download and install following packages:    CMake   GNU flex, GNU bison and GIT with cygwin  32bit  or  64bit   OSGeo4W  32bit  or  64bit   ninja  For the QGIS bui">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2021/05/25/yPNDnqQpA28KMVl.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/27/6rmRALTkq9Qxg3J.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/01/pv34zeMN1EiCbuA.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/01/b5TABZlDrIR6WNM.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/01/ScCKpsvPegHEN1X.png">
+<meta property="article:published_time" content="2021-05-25T09:36:33.039Z">
+<meta property="article:modified_time" content="2021-06-04T07:22:06.049Z">
+<meta property="article:author" content="matatabimori">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/25/yPNDnqQpA28KMVl.png">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/typing.css">
+
+  
+<link rel="stylesheet" href="/css/donate.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-QGIS在VS2019编译中遇到的问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <header id="header" class="header">
+  <nav class="mobile-nav">
+    <h1 class="nickname">Angie</h1>
+    <ul class="mobile-nav-menu">
+      <label for="mobile-menu-toggle"><a id="menu-button">&#9776; Menu</a></label>
+      <input type="checkbox" id="mobile-menu-toggle"/>
+      <ul class="mobile-nav-link">
+        
+        <a href="/">Home</a>
+        
+        <a href="/archives">Archives</a>
+        
+        <a href="/about">About</a>
+        
+      </ul>
+    </ul>
+  </nav>
+	
+		<nav id="main-nav" class="main-nav nav-left">
+	
+	
+	  <a class="main-nav-link" href="/">Home</a>
+	
+	  <a class="main-nav-link" href="/archives">Archives</a>
+	
+	  <a class="main-nav-link" href="/about">About</a>
+	
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      QGIS+VS2019编译中遇到的问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry typo" itemprop="articleBody">
+      
+        <p>本篇记录在网上找不到解决方法的一些我遇到的错误。</p>
+<p>根据<a target="_blank" rel="noopener" href="https://github.com/qgis/QGIS/blob/release-3_16/INSTALL.md#41-building-with-microsoft-visual-studio">官方指导</a>完成下载步骤<br>Download and install following packages:</p>
+<ul>
+<li>  <a target="_blank" rel="noopener" href="https://cmake.org/files/v3.12/cmake-3.12.3-win64-x64.msi">CMake</a></li>
+<li>  GNU flex, GNU bison and GIT with cygwin  <a target="_blank" rel="noopener" href="https://cygwin.com/setup-x86.exe">32bit</a>  or  <a target="_blank" rel="noopener" href="https://cygwin.com/setup-x86_64.exe">64bit</a></li>
+<li>  OSGeo4W  <a target="_blank" rel="noopener" href="https://download.osgeo.org/osgeo4w/osgeo4w-setup-x86.exe">32bit</a>  or  <a target="_blank" rel="noopener" href="https://download.osgeo.org/osgeo4w/osgeo4w-setup-x86_64.exe">64bit</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip">ninja</a></li>
+</ul>
+<p>For the QGIS build you need to install following packages from cygwin:</p>
+<ul>
+<li>  bison</li>
+<li>  flex</li>
+<li>  git (even if you already have Git for Windows installed)</li>
+</ul>
+<p>and from OSGeo4W (select  <em>Advanced Install</em>):</p>
+<ul>
+<li>  qgis-ltr-deps</li>
+</ul>
+<p> <strong>1. 配置环境变量时使用的VS工具脚本</strong><br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">set</span> OSGEO4W_ROOT=D:/BOOKS/OSGeo4W64</span><br><span class="line">call <span class="string">&quot;%OSGEO4W_ROOT%\bin\o4w_env.bat&quot;</span></span><br><span class="line">call <span class="string">&quot;%OSGEO4W_ROOT%\bin\py3_env.bat&quot;</span></span><br><span class="line">call <span class="string">&quot;%OSGEO4W_ROOT%\bin\qt5_env.bat&quot;</span></span><br><span class="line">path %path%;%OSGEO4W_ROOT%\bin;D:\cygwin64\bin</span><br><span class="line"><span class="built_in">set</span> O4W_ROOT=%OSGEO4W_ROOT:\=/%</span><br><span class="line"><span class="built_in">set</span> LIB_DIR=%O4W_ROOT%</span><br><span class="line"><span class="built_in">set</span> GRASS_PREFIX=%OSGEO4W_ROOT%/apps/grass/grass78</span><br><span class="line"><span class="built_in">set</span> INCLUDE=%INCLUDE%;%OSGEO4W_ROOT%\include</span><br><span class="line"><span class="built_in">set</span> LIB=%LIB%;%OSGEO4W_ROOT%\lib;%OSGEO4W_ROOT%\lib</span><br><span class="line"><span class="built_in">set</span> LIB=%LIB%;%OSGEO4W_ROOT%\apps\Qt5\lib;%OSGEO4W_ROOT%\lib</span><br><span class="line"><span class="string">&quot;D:\cmake-3.20.2\cmake-3.20.2-windows-x86_64\bin\cmake-gui.exe&quot;</span></span><br></pre></td></tr></table></figure><br>打开cmake后打开源码目录，configure的时候显示找不到PyQt5，有可能是因为在OSGEO4W中安装的库太多起冲突，重新下载qgis-ltr-deps在别的目录后得到解决。</p>
+<p><strong>2. cmake中configure过程中显示找不到EXIV2</strong><br>添加正确的目录：<br>EXIV2_INCLUDE_DIR——–&gt;D:/OSGeo4W64/include/exiv2<br>EXIV2_LIBRARY——–&gt;D:/OSGeo4W64/lib/exiv2.lib<br>后得到了解决。configure和generate成功。</p>
+<p><strong>3.编译过程中cstdint.h文件报错</strong><br><img src="https://i.loli.net/2021/05/25/yPNDnqQpA28KMVl.png" alt="enter image description here"><br>这些变量都显示<br>Files\Caffe\VSContact\boost_1_58_0\boost\cstdint.hpp 124 1 TAppEncoder<br>错误 30 error C2873: “uint_least64_t”: 符号不能用在 using 声明中 D:\Program Files\Caffe\VSContact\boost_1_58_0\boost\cstdint.hpp 133 1 TAppEncoder<br>错误 6 error C2873: “uint_least8_t”: 符号不能用在 using 声明中 D:\Program Files\Caffe\VSContact\boost_1_58_0\boost\cstdint.hpp 110 1 TAppEncoder<br>错误 36 error C2873: “uintmax_t”: 符号不能用在 using 声明中 D:\Program Files\Caffe\VSContact\boost_1_58_0\boost\cstdint.hpp 139 1 TAppEncoder<br> 42 IntelliSense:  全局范围没有 “int_fast16_t” d:\Program Files\Caffe\VSContact\boost_1_58_0\boost\cstdint.hpp 115 11 TAppEncoder<br> 46 IntelliSense:  全局范围没有 “int_fast32_t” d:\Program Files\Caffe\VSContact\boost_1_58_0\boost\cstdint.hpp 122 11 TAppEncoder<br> 50 IntelliSense:  全局范围没有 “int_fast64_t” d:\Program Files\Caffe\VSContact\boost_1_58_0\boost\cstdint.hpp 131 11 TAppEncoder<br> 38 IntelliSense:  全局范围没有 “int_fast8_t” d:\Program Files\Caffe\VSContact\boost_1_58_0\boost\cstdint.hpp 108 11 TAppEncoder<br> 41 IntelliSense:  全局范围没有 “int_least16_t” d:\Program Files\Caffe\VSContact\boost_1_58_0\boost\cstdint.hpp 114 11 TAppEncoder<br>类似的错误，原图没有截。</p>
+<p>将原工程中使用的stdint.h文件替换为VS自带的stdint.h文件得到了解决。<br>我的VS自带.h文件路径：C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include</p>
+<p> <strong>4. 仅安装qgis-ltr-deps后cmake configure不通过</strong><br>根据<a target="_blank" rel="noopener" href="https://github.com/qgis/QGIS/blob/release-3_16/INSTALL.md#41-building-with-microsoft-visual-studio">官方指导</a>：<br> from OSGeo4W (select  <em>Advanced Install</em>):</p>
+<ul>
+<li>  qgis-ltr-deps</li>
+</ul>
+<p>此步骤安装的package缺很多文件，应该同时安装</p>
+<ul>
+<li>  qgis-ltr-deps</li>
+<li> qgis-dev-deps</li>
+</ul>
+<p>这两个。</p>
+<p> <strong>5. qwt_scale_map.h中QT_STATIC_CONST出现错误</strong><br>qwt_scale_map.h文件中遇到如下问题，此为Qt版本原因。<br><img src="https://i.loli.net/2021/05/27/6rmRALTkq9Qxg3J.png" alt="enter image description here"><br>可以将<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">QT_STATIC_CONST double LogMin;</span><br><span class="line"> QT_STATIC_CONST double LogMax;</span><br></pre></td></tr></table></figure><br>改为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#if QT_VERSION &gt;= 0x050400</span></span><br><span class="line"> static const double LogMin;</span><br><span class="line"> static const double LogMax;</span><br><span class="line"><span class="comment">#else</span></span><br><span class="line"> QT_STATIC_CONST double LogMin;</span><br><span class="line"> QT_STATIC_CONST double LogMax;</span><br><span class="line"><span class="comment">#endif</span></span><br></pre></td></tr></table></figure>
+<p> 得到解决。</p>
+<p> <strong>6.qgsgradientcolorrampdialog.cpp出现语法错误</strong><br><img src="https://i.loli.net/2021/06/01/pv34zeMN1EiCbuA.png" alt="enter image description here"><br><img src="https://i.loli.net/2021/06/01/b5TABZlDrIR6WNM.png" alt="enter image description here"><br>如图出现两处语法错误<br>第一处错误显示E0289 没有与参数列表匹配的构造函数<br>在网上找到了定义QwtScaleDiv类的头文件，其中有<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">explicit QwtScaleDiv(double lowerBound, double upperBound,</span><br><span class="line">        const QList&lt;double&gt;&amp; minorTicks, const QList&lt;double&gt;&amp; mediumTicks,</span><br><span class="line">        const QList&lt;double&gt;&amp; majorTicks);</span><br></pre></td></tr></table></figure><br>将这段代码加到qwt_scale_div.h文件里的<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">explicit QwtScaleDiv();</span><br><span class="line">explicit QwtScaleDiv(const QwtDoubleInterval &amp;,</span><br><span class="line">    QwtValueList[NTickTypes]);</span><br><span class="line">explicit QwtScaleDiv(double lowerBound,double upperBound,</span><br><span class="line">    QwtValueList[NTickTypes]);</span><br></pre></td></tr></table></figure><br>下面，显示编译通过。</p>
+<p> <strong>7.qwt版本不一致导致许多文件出现语法错误</strong><br><img src="https://i.loli.net/2021/06/01/ScCKpsvPegHEN1X.png" alt="enter image description here"></p>
+<p>如图以上各种语法错误和各种未定义什么的五六十个报错是因为头文件出了问题，依赖库的目录应该是D:\OSGeo4W64\apps\Qt5\include\qwt6，而程序找到的目录是D:\OSGeo4W64\include\qwt，其中大量的.h文件重名但内容不同，这是大量报错的原因。<br>将其中的头文件替换一下就得到了解决。</p>
+<p>其实也不是因为路径错误了而是应该使用qwt6以上的头文件，而qgis下载的时候下的是qwt5，所以会出现很多未定义的函数和变量之类的报错。<br>从官网下载了qwt6.1，将src目录里的.h文件替换到了D:\OSGeo4W64\apps\Qt5\include\qwt6，报错消失。</p>
+<p>其他问题可参考此篇文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39506222/article/details/83298543">QGIS+QT5+VS2015（2017）的编译</a></p>
+<p> <strong>8.出现错误LNK2019 无法解析的外部符号</strong></p>
+
+      
+      
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2021/05/25/QGIS%E5%9C%A8VS2019%E7%BC%96%E8%AF%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2021-05-25T09:36:33.039Z" itemprop="datePublished">2021-05-25</time>
+</a>
+
+        </li>
+        
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <a href="/2021/06/08/QGIS%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F+%E5%BC%80%E5%8F%91%E5%BA%93/" id="article-nav-newer" class="article-nav-link-wrap newer">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          QGIS安装程序+开发库中遇到的问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/05/21/%E6%AF%95%E8%AE%BE%E4%BB%A3%E7%A0%81/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">毕设：图像修复系统最终代码PyQt5+OpenCV</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>來自我的甜蜜夢鄉</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/typing.js"></script>
+
+<!--[if lt IE 9]>
+<script src="https://cdn.jsdelivr.net/npm/html5shiv@3/dist/html5shiv.min.js"></script>
+<![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>

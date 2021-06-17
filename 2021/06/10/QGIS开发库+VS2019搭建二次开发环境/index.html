@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  
+  <title>VS2019+QGIS开发库二次开发环境搭建 | Angie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="总共分为以下步骤：   下载qgis和二次开发库 VS2019搭建开发环境-  配置VS2019中的Qt插件     配置完Qt版本后对工程属性进行配置    编写测试代码 运行测试代码  拷贝运行程序需要用的动态库文件     1. 开发环境  Win10 ×64 VS2019 OSGeo4W   2. 下载qgis二次开发SDK打开osgeo4w-setup-x86_64.exe后1.选择ad">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS2019+QGIS开发库二次开发环境搭建">
+<meta property="og:url" content="http://example.com/2021/06/10/QGIS%E5%BC%80%E5%8F%91%E5%BA%93+VS2019%E6%90%AD%E5%BB%BA%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/index.html">
+<meta property="og:site_name" content="Angie">
+<meta property="og:description" content="总共分为以下步骤：   下载qgis和二次开发库 VS2019搭建开发环境-  配置VS2019中的Qt插件     配置完Qt版本后对工程属性进行配置    编写测试代码 运行测试代码  拷贝运行程序需要用的动态库文件     1. 开发环境  Win10 ×64 VS2019 OSGeo4W   2. 下载qgis二次开发SDK打开osgeo4w-setup-x86_64.exe后1.选择ad">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/lfPEJAr2Rtb4BH1.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/ixZ5CatQBVMg2sH.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/I2l48zOxhBaDNTr.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/VyFg2wp1cdfWxe9.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/qUAVRupgxfr9ajW.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/Vw3I7KDr5ejnGzO.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/PNYmujHJXnhAG9y.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/IZe6QVUnW3NxRcB.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/6afNYVKxRjDi9Aq.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/08/KRtZA8ve31pXUFL.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/XZeGyEHItRQShDi.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/teOpZnMauKv7Fjx.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/94sRUCFnoO1PbT3.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/Y2iZeSHXRabDfNO.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/bXDcaru1PWLilgv.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/DPNqIpT1EB5udWJ.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/4dtDSWhZUGyiHeu.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/59eRrU4NtJK6uZi.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/4G7aOECwLRlMAtr.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/4RSoxvL2iET1GeH.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/8YKzRtOCneBVPyT.png">
+<meta property="article:published_time" content="2021-06-10T07:16:03.312Z">
+<meta property="article:modified_time" content="2021-06-11T01:38:10.509Z">
+<meta property="article:author" content="matatabimori">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/06/10/lfPEJAr2Rtb4BH1.png">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/typing.css">
+
+  
+<link rel="stylesheet" href="/css/donate.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-QGIS开发库+VS2019搭建二次开发环境" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <header id="header" class="header">
+  <nav class="mobile-nav">
+    <h1 class="nickname">Angie</h1>
+    <ul class="mobile-nav-menu">
+      <label for="mobile-menu-toggle"><a id="menu-button">&#9776; Menu</a></label>
+      <input type="checkbox" id="mobile-menu-toggle"/>
+      <ul class="mobile-nav-link">
+        
+        <a href="/">Home</a>
+        
+        <a href="/archives">Archives</a>
+        
+        <a href="/about">About</a>
+        
+      </ul>
+    </ul>
+  </nav>
+	
+		<nav id="main-nav" class="main-nav nav-left">
+	
+	
+	  <a class="main-nav-link" href="/">Home</a>
+	
+	  <a class="main-nav-link" href="/archives">Archives</a>
+	
+	  <a class="main-nav-link" href="/about">About</a>
+	
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      VS2019+QGIS开发库二次开发环境搭建
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry typo" itemprop="articleBody">
+      
+        <p>总共分为以下步骤：</p>
+<ul>
+<li> 下载qgis和二次开发库</li>
+<li>VS2019搭建开发环境<pre><code>-  配置VS2019中的Qt插件
+</code></pre>
+<ul>
+<li>  配置完Qt版本后对工程属性进行配置</li>
+</ul>
+</li>
+<li> 编写测试代码</li>
+<li>运行测试代码<ul>
+<li> 拷贝运行程序需要用的动态库文件</li>
+</ul>
+</li>
+</ul>
+<p> <strong>1. 开发环境</strong></p>
+<ul>
+<li>Win10 ×64</li>
+<li>VS2019</li>
+<li><a target="_blank" rel="noopener" href="https://download.osgeo.org/osgeo4w/osgeo4w-setup-x86_64.exe">OSGeo4W</a></li>
+</ul>
+<p> <strong>2. 下载qgis二次开发SDK</strong><br>打开osgeo4w-setup-x86_64.exe后<br>1.选择advanced install<img src="https://i.loli.net/2021/06/10/lfPEJAr2Rtb4BH1.png" alt="enter image description here"><br>2.选择install from Internet<img src="https://i.loli.net/2021/06/10/ixZ5CatQBVMg2sH.png" alt="enter image description here"><br>3.选择自己的安装路径<br>4.选择一个下载网站<img src="https://i.loli.net/2021/06/10/I2l48zOxhBaDNTr.png" alt="enter image description here"><br>5.选择需要的开发库<br><img src="https://i.loli.net/2021/06/10/VyFg2wp1cdfWxe9.png" alt="enter image description here"><br>首先在上面的搜索栏输入qgis-ltr（qgis长期支持版），搜索结果出来后点击ALL旁边的Default，变成Install。<br><img src="https://i.loli.net/2021/06/10/qUAVRupgxfr9ajW.png" alt="enter image description here"><br><img src="https://i.loli.net/2021/06/10/Vw3I7KDr5ejnGzO.png" alt="enter image description here"><br>完成这一步后清除搜索框的内容，再搜索qgis-dev-deps，重复刚才的步骤，将All点击成Install状态。<br><img src="https://i.loli.net/2021/06/10/PNYmujHJXnhAG9y.png" alt="enter image description here"><br>然后可以一路点击下一步直到安装完成。</p>
+<p> <strong>3. VS2019搭建开发环境</strong></p>
+<p><strong>配置VS2019中的Qt插件</strong></p>
+<p>在<a target="_blank" rel="noopener" href="https://download.qt.io/official_releases/vsaddin/">官网下载</a>Qt VS Tools插件。<br> 选择不使用VS自带扩展管理下载插件的原因是现在Qt VS Tools插件的版本太新了，里面没有Qt GUI Application这个模板。在官网下载较低版本就行，这里选择<a target="_blank" rel="noopener" href="https://download.qt.io/official_releases/vsaddin/2.4.3/qt-vsaddin-msvc2019-2.4.3.vsix">qt-vsaddin-msvc2019-2.4.3.vsix</a>。<br>下载好之后双击打开就能自动安装到VS2019里面。<br>安装好之后打开VS2019，创建新的Qt GUI Application模板。我起名叫gis_dev。<br><img src="https://i.loli.net/2021/06/10/IZe6QVUnW3NxRcB.png" alt="enter image description here"><br>创建的过程中勾选XML选项，其他默认就好。<img src="https://i.loli.net/2021/06/10/6afNYVKxRjDi9Aq.png" alt="enter image description here"><br>创建工程后，首先取消Qt插件的自动更新。<br>在扩展—&gt;管理扩展—&gt;更改扩展的设置中取消掉自动检查更新的勾选框，不然每次都会给你自动更新。<br><img src="https://i.loli.net/2021/06/08/KRtZA8ve31pXUFL.png" alt="enter image description here"><br>然后在扩展—&gt;Qt VS Tools—&gt;Qt Options中配置QGis的Qt版本，点击Add添加，路径OSGeoW64\apps\Qt5，起名随便，然后点击OK。<br><img src="https://i.loli.net/2021/06/10/XZeGyEHItRQShDi.png" alt="enter image description here"></p>
+<p><strong>配置完Qt版本后对工程属性进行配置。</strong><br>对项目工程右键打开属性，C/C++ —&gt;常规，附加包含目录，点击文件夹图标，添加qgis库的头文件目录.<br><img src="https://i.loli.net/2021/06/10/teOpZnMauKv7Fjx.png" alt="enter image description here"><br>在里面添加下面三个目录，确定。<br><img src="https://i.loli.net/2021/06/10/94sRUCFnoO1PbT3.png" alt="enter image description here"><br>再在链接器里添加附加库目录。<img src="https://i.loli.net/2021/06/10/Y2iZeSHXRabDfNO.png" alt="enter image description here"><br>添加下图一个路径。<img src="https://i.loli.net/2021/06/10/bXDcaru1PWLilgv.png" alt="enter image description here"></p>
+<p>最后在输入—&gt;附加依赖项添加lib文件。<br><img src="https://i.loli.net/2021/06/10/DPNqIpT1EB5udWJ.png" alt="enter image description here"><img src="https://i.loli.net/2021/06/10/4dtDSWhZUGyiHeu.png" alt="enter image description here"><br>这样就配置好了二次开发环境。</p>
+<p> <strong>4. 编写测试代码</strong></p>
+<p>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaobaiqing1983/article/details/105403838"> 基于QGis二次开发创建自定义程序–环境搭建</a>这篇博客的测试代码，对其做出了一点修改。</p>
+<p>首先双击，用Qt Designer打开gis_dev.ui，在界面里新添加菜单项，设置变量名为:m_actAddVector，如图所示。<br><img src="https://i.loli.net/2021/06/10/59eRrU4NtJK6uZi.png" alt="enter image description here"><br>保存后关闭，然后使用下面的测试代码。</p>
+<p><strong>gis_dev.h</strong><br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;QtWidgets/QMainWindow&gt;</span></span><br><span class="line"><span class="comment">#include &quot;ui_gis_dev.h&quot;</span></span><br><span class="line"><span class="comment">#include &lt;QtCore/qnumeric.h&gt;</span></span><br><span class="line"><span class="comment">#define M_PI (3.1415926)</span></span><br><span class="line"><span class="comment">#define M_PI_2 (3.1415926)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;qgis.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsmapcanvas.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsmaplayer.h&gt;</span></span><br><span class="line"></span><br><span class="line">class gis_dev : public QMainWindow</span><br><span class="line">&#123;</span><br><span class="line">	Q_OBJECT</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">	gis_dev(QWidget* parent = Q_NULLPTR);</span><br><span class="line"></span><br><span class="line">public slots:</span><br><span class="line">	void slotAddVector();</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">	Ui::gis_devClass ui;</span><br><span class="line"></span><br><span class="line">	QgsMapCanvas* mapCanvas; // 地图画布</span><br><span class="line"></span><br><span class="line">	QList&lt;QgsMapLayer*&gt; mapCanvasLayerSet; // 地图画布所用的图层集合</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><br><strong>gis_dev.cpp</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &quot;gis_dev.h&quot;</span></span><br><span class="line"><span class="comment">#include &lt;QtWidgets/QFileDialog&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsvectorlayer.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgslayoutitemregistry.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsrasterlayer.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;QtWidgets/qmessagebox.h&gt;</span></span><br><span class="line"></span><br><span class="line">gis_dev::gis_dev(QWidget* parent)</span><br><span class="line">	: QMainWindow(parent)</span><br><span class="line">&#123;</span><br><span class="line">	ui.setupUi(this);</span><br><span class="line">	connect(ui.m_actAddVector, SIGNAL(triggered(bool)), this, SLOT(slotAddVector()));</span><br><span class="line"></span><br><span class="line">	mapCanvas = new QgsMapCanvas();</span><br><span class="line">	this-&gt;setCentralWidget(mapCanvas);</span><br><span class="line"></span><br><span class="line">	mapCanvas-&gt;enableAntiAliasing(<span class="literal">true</span>);</span><br><span class="line">	mapCanvas-&gt;setCanvasColor(QColor(255, 255, 255));</span><br><span class="line">	mapCanvas-&gt;setVisible(<span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void gis_dev::slotAddVector()</span><br><span class="line">&#123;</span><br><span class="line">	QString filename = QFileDialog::getOpenFileName(this, tr(<span class="string">&quot;open vector&quot;</span>), <span class="string">&quot;&quot;</span>, <span class="string">&quot;*.shp;;*.*&quot;</span>);</span><br><span class="line">	QStringList temp = filename.split(QDir::separator());</span><br><span class="line">	QString basename = temp.at(temp.size() - 1);</span><br><span class="line">	QgsVectorLayer* vecLayer = new QgsVectorLayer(filename, basename, <span class="string">&quot;ogr&quot;</span>);// , <span class="literal">false</span>);</span><br><span class="line">	<span class="keyword">if</span> (!vecLayer-&gt;isValid())</span><br><span class="line">	&#123;</span><br><span class="line">		QMessageBox::critical(this, <span class="string">&quot;error&quot;</span>, <span class="string">&quot;layer is invalid&quot;</span>);</span><br><span class="line">		<span class="built_in">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//QgsMapLayerRegistry::instance()-&gt;addMapLayer(vecLayer);</span><br><span class="line">	mapCanvasLayerSet.append(vecLayer);</span><br><span class="line">	mapCanvas-&gt;setExtent(vecLayer-&gt;extent());</span><br><span class="line">	mapCanvas-&gt;setLayers(mapCanvasLayerSet);</span><br><span class="line">	mapCanvas-&gt;setVisible(<span class="literal">true</span>);</span><br><span class="line">	mapCanvas-&gt;freeze(<span class="literal">false</span>);</span><br><span class="line">	mapCanvas-&gt;refresh();</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>main.cpp</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//main.cpp</span><br><span class="line"><span class="comment">#include &quot;gis_dev.h&quot;</span></span><br><span class="line"><span class="comment">#include &lt;QtWidgets/QApplication&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsapplication.h&gt;</span></span><br><span class="line">int main(int argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">	QgsApplication a(argc, argv, <span class="literal">true</span>);</span><br><span class="line">	QgsApplication::setPrefixPath(<span class="string">&quot;D:/QGIS 3.16/&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">	QgsApplication::initQgis();    //初始化QGIS应用</span><br><span class="line">	gis_dev w;</span><br><span class="line">	w.show();</span><br><span class="line">	<span class="built_in">return</span> a.exec();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用release版本执行编译</strong>，即可生成”gis_dev.exe”。</p>
+<p> <strong>5. 运行测试代码</strong><br> 如果此时双击”gis_dev.exe”运行，会报缺少很多dll文件的错误，因为需要将Qt5依赖的文件拷贝到项目文件目录下。将<br>D:\OSGeo4W\apps\qgis\bin<br>D:\OSGeo4W\bin<br>D:\OSGeo4W\apps\Qt5\bin<br>目录下dll文件拷贝到工程Release目录下<br>还是有可能会缺dll文件，就需要用到Qt5自带的“windeployqt.exe”程序，可以用如下方法添加：</p>
+<ol>
+<li>从目录“D:\OSGeo4W64\apps\Qt5\bin”中拷贝windeployqt.exe文件到工程目录（D:\BOOKS\VSProject\gis_dev\x64\Release）下，把它和工程生成的gis_dev.exe文件放在一起。</li>
+<li>其次，把“D:\OSGeo4W64\apps\Qt5\bin”添加到系统的环境变量的path中，重启电脑。</li>
+<li>打开VS 2019开发人员cmd窗口，输入命令windeployqt [exe文件的路径]，比如我的是“windeployqt D:\BOOKS\VSProject\gis_dev\x64\Release\gis_dev.exe”，按下回车就完成了资源拷贝。如图所示：<br><img src="https://i.loli.net/2021/06/10/4G7aOECwLRlMAtr.png" alt="enter image description here"></li>
+</ol>
+<p>完成拷贝后再运行测试程序就能正常运行。<br><img src="https://i.loli.net/2021/06/10/4RSoxvL2iET1GeH.png" alt="enter image description here"></p>
+<p> <strong>6. 可能遇到的问题</strong><br>无法打开源文件 “ui_gis_dev.h”<br>创建新项目后发现有无法打开ui_gis_dev.h的错误。<br>解决方案：<br>在工具-外部工具中配置uic编译工具<br><img src="https://i.loli.net/2021/06/10/8YKzRtOCneBVPyT.png" alt="enter image description here"><br>如图所示，再编译cpp文件后就得到了ui_QtGuiApplication2.h在工程文件夹里，将它添加到工程即可。</p>
+<p><a target="_blank" rel="noopener" href="https://matatabimori.github.io/2021/05/25/QGIS%E5%9C%A8VS2019%E7%BC%96%E8%AF%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/">源码编译记录</a><br><a target="_blank" rel="noopener" href="https://matatabimori.github.io/2021/06/08/QGIS%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F+%E5%BC%80%E5%8F%91%E5%BA%93/">QGIS安装程序+开发库搭建记录</a></p>
+
+      
+      
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2021/06/10/QGIS%E5%BC%80%E5%8F%91%E5%BA%93+VS2019%E6%90%AD%E5%BB%BA%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" class="article-date">
+  <time class="dt-published" datetime="2021-06-10T07:16:03.312Z" itemprop="datePublished">2021-06-10</time>
+</a>
+
+        </li>
+        
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <a href="/2021/06/17/VS2019+QGIS+cmake%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" id="article-nav-newer" class="article-nav-link-wrap newer">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          VS2019+QGIS+cmake二次开发环境搭建
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/06/08/QGIS%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F+%E5%BC%80%E5%8F%91%E5%BA%93/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">QGIS安装程序+开发库中遇到的问题</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>來自我的甜蜜夢鄉</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/typing.js"></script>
+
+<!--[if lt IE 9]>
+<script src="https://cdn.jsdelivr.net/npm/html5shiv@3/dist/html5shiv.min.js"></script>
+<![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>

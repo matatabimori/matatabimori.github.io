@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Cmake创建含3级子模块的project | Angie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="push命令：hexo clean &amp;&amp; hexo g &amp;&amp; hexo d 示例文件结构├── bin├── inc├── out    └──build├── CMakeLists.txt            # 顶层一级CMakeLists.txt└── src                # 源码目录    ├── CMakeLists.txt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cmake创建含3级子模块的project">
+<meta property="og:url" content="http://example.com/2021/03/24/Cmake%E5%88%9B%E5%BB%BA%E5%90%AB3%E7%BA%A7%E5%AD%90%E6%A8%A1%E5%9D%97%E7%9A%84project/index.html">
+<meta property="og:site_name" content="Angie">
+<meta property="og:description" content="push命令：hexo clean &amp;&amp; hexo g &amp;&amp; hexo d 示例文件结构├── bin├── inc├── out    └──build├── CMakeLists.txt            # 顶层一级CMakeLists.txt└── src                # 源码目录    ├── CMakeLists.txt">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-24T14:36:35.631Z">
+<meta property="article:modified_time" content="2021-05-21T05:42:14.880Z">
+<meta property="article:author" content="matatabimori">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/typing.css">
+
+  
+<link rel="stylesheet" href="/css/donate.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-Cmake创建含3级子模块的project" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <header id="header" class="header">
+  <nav class="mobile-nav">
+    <h1 class="nickname">Angie</h1>
+    <ul class="mobile-nav-menu">
+      <label for="mobile-menu-toggle"><a id="menu-button">&#9776; Menu</a></label>
+      <input type="checkbox" id="mobile-menu-toggle"/>
+      <ul class="mobile-nav-link">
+        
+        <a href="/">Home</a>
+        
+        <a href="/archives">Archives</a>
+        
+        <a href="/about">About</a>
+        
+      </ul>
+    </ul>
+  </nav>
+	
+		<nav id="main-nav" class="main-nav nav-left">
+	
+	
+	  <a class="main-nav-link" href="/">Home</a>
+	
+	  <a class="main-nav-link" href="/archives">Archives</a>
+	
+	  <a class="main-nav-link" href="/about">About</a>
+	
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Cmake创建含3级子模块的project
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry typo" itemprop="articleBody">
+      
+        <p>push命令：hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</p>
+<h2 id="示例文件结构"><a href="#示例文件结构" class="headerlink" title="示例文件结构"></a>示例文件结构</h2><p>├── bin<br>├── inc<br>├── out<br>    └──build<br>├── CMakeLists.txt            # 顶层一级CMakeLists.txt<br>└── src                # 源码目录<br>    ├── CMakeLists.txt        # 二级CMakeLists.txt<br>    ├── main.cpp            #main函数入口<br>    ├── sub1                # 模块一<br>    │   ├── CMakeLists.txt        # 三级 CMakeLists.txt<br>    │   ├── sub1.cpp            # 模块一 源码<br>    │   ├── sub1.h            # 模块一 头文件<br>    │   ├── sub1a<br>    │   │     ├── CMakeLists.txt<br>    │   │     ├── sub1a.cpp<br>    │   │     └── sub1a.h<br>    │   ├── sub1b<br>    │   │     ├── CMakeLists.txt<br>    │   │     ├── sub1b.cpp<br>    │   │     └── sub1b.h<br>    ├── sub2            # 模块二<br>    │   ├── CMakeLists.txt<br>    │   ├── sub2.cpp<br>    │   └── sub2.h<br>    ├── sub3            # 模块三<br>    │   ├── CMakeLists.txt<br>    │   ├── sub3.cpp<br>    │   └── sub3.h<br>    └── main.h</p>
+<h3 id="顶层CMakeLists-txt"><a href="#顶层CMakeLists-txt" class="headerlink" title="顶层CMakeLists.txt"></a>顶层CMakeLists.txt</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_MINIMUM_REQUIRED(VERSION 3.12)</span><br><span class="line">cmake_policy(SET CMP0048 NEW)</span><br><span class="line">project(<span class="built_in">test</span> VERSION <span class="string">&quot;1.0.0.0&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#include_directories($&#123;PROJECT_SOURCE_DIR&#125;/inc) # 指定头文件搜索路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#aux_source_directory($&#123;PROJECT_SOURCE_DIR&#125;/src src_dirs) # 指定源码目录</span></span><br><span class="line"><span class="comment">#link_directories($&#123;PROJECT_SOURCE_DIR&#125;/lib) # 指定库搜索路径</span></span><br><span class="line">add_executable(main src) <span class="comment"># 指定可执行文件名及源码</span></span><br><span class="line">target_link_libraries(main sub1 sub2 sub3) <span class="comment"># 链接外部库</span></span><br><span class="line">add_subdirectory(src) <span class="comment"># 指定 编译子目录</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $&#123;PROJECT_SOURCE_DIR&#125;/bin) # 指定可执行文件输出目录</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="src-CMakeLists-txt"><a href="#src-CMakeLists-txt" class="headerlink" title="src\CMakeLists.txt"></a>src\CMakeLists.txt</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add_subdirectory(sub1)</span><br><span class="line">add_subdirectory(sub2)</span><br><span class="line">add_subdirectory(sub3)</span><br></pre></td></tr></table></figure>
+<h3 id="src-main-cpp"><a href="#src-main-cpp" class="headerlink" title="src\main.cpp"></a>src\main.cpp</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdlib.h&gt;</span></span><br><span class="line"><span class="comment">#include &quot;sub1/sub1.h&quot;</span></span><br><span class="line"><span class="comment">#include &quot;sub2/sub2.h&quot;</span></span><br><span class="line"><span class="comment">#include &quot;sub3/sub3.h&quot;</span></span><br><span class="line"></span><br><span class="line">int main(int argc, char** argv)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m in main!\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    Sub1 sub1;</span><br><span class="line"></span><br><span class="line">    sub1.print();</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    Sub2 sub2;</span><br><span class="line"></span><br><span class="line">    sub2.print();</span><br><span class="line"></span><br><span class="line">    Sub3 sub3;</span><br><span class="line"></span><br><span class="line">    sub3.print();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="src-sub1-CMakeLists-txt"><a href="#src-sub1-CMakeLists-txt" class="headerlink" title="src\sub1\CMakeLists.txt"></a>src\sub1\CMakeLists.txt</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> message(<span class="string">&quot;sub1---<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_LIBRARY_OUTPUT_DIRECTORY <span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/lib) <span class="comment"># 指定动态库输出目录</span></span><br><span class="line">add_library(sub1 SHARED ./sub1.cpp) <span class="comment"># 生成动态库 libsub1.so</span></span><br><span class="line">add_subdirectory(sub1a)</span><br><span class="line">add_subdirectory(sub1b)</span><br></pre></td></tr></table></figure>
+<h3 id="src-sub1-sub1-cpp"><a href="#src-sub1-sub1-cpp" class="headerlink" title="src\sub1\sub1.cpp"></a>src\sub1\sub1.cpp</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &quot;sub1.h&quot;</span></span><br><span class="line"></span><br><span class="line">Sub1::<span class="function"><span class="title">Sub1</span></span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">Sub1::~<span class="function"><span class="title">Sub1</span></span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">void Sub1::<span class="built_in">print</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m in sub1\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="src-sub1-h"><a href="#src-sub1-h" class="headerlink" title="src\sub1.h"></a>src\sub1.h</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#pragma once</span></span><br><span class="line"><span class="comment">#ifndef __sub1</span></span><br><span class="line"><span class="comment">#define __sub1</span></span><br><span class="line"></span><br><span class="line">class Sub1</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Sub1();</span><br><span class="line">    ~Sub1();</span><br><span class="line"></span><br><span class="line">    void <span class="built_in">print</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#endif</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="src-sub1-sub1a-CMakeLists-txt"><a href="#src-sub1-sub1a-CMakeLists-txt" class="headerlink" title="src\sub1\sub1a\CMakeLists.txt"></a>src\sub1\sub1a\CMakeLists.txt</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">message(<span class="string">&quot;sub1a---<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_LIBRARY_OUTPUT_DIRECTORY <span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/lib) <span class="comment"># 指定动态库输出目录</span></span><br><span class="line">add_library(sub1a SHARED ./sub1a.cpp) <span class="comment"># 生成动态库 libsub1.so</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="src-sub1-sub1a-sub1a-cpp"><a href="#src-sub1-sub1a-sub1a-cpp" class="headerlink" title="src\sub1\sub1a\sub1a.cpp"></a>src\sub1\sub1a\sub1a.cpp</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &quot;sub1a.h&quot;</span></span><br><span class="line"></span><br><span class="line">Sub1a::<span class="function"><span class="title">Sub1a</span></span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">Sub1a::~<span class="function"><span class="title">Sub1a</span></span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">void Sub1a::<span class="built_in">print</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m in sub1a\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="src-sub1-sub1a-sub1a-h"><a href="#src-sub1-sub1a-sub1a-h" class="headerlink" title="src\sub1\sub1a\sub1a.h"></a>src\sub1\sub1a\sub1a.h</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#pragma once</span></span><br><span class="line"><span class="comment">#ifndef __sub1a</span></span><br><span class="line"><span class="comment">#define __sub1a</span></span><br><span class="line"></span><br><span class="line">class Sub1a</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Sub1a();</span><br><span class="line">    ~Sub1a();</span><br><span class="line"></span><br><span class="line">    void <span class="built_in">print</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">#endif</span></span><br></pre></td></tr></table></figure>
+<p>sub1b、sub2/sub3依此类推</p>
+
+      
+      
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2021/03/24/Cmake%E5%88%9B%E5%BB%BA%E5%90%AB3%E7%BA%A7%E5%AD%90%E6%A8%A1%E5%9D%97%E7%9A%84project/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T14:36:35.631Z" itemprop="datePublished">2021-03-24</time>
+</a>
+
+        </li>
+        
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <a href="/2021/05/19/%E5%88%9B%E5%BB%BA%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/" id="article-nav-newer" class="article-nav-link-wrap newer">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          QGIS创建环境变量以拉起VS2019
+        
+      </div>
+    </a>
+  
+  
+    <span id="article-nav-older" class="article-nav-link-wrap older"></span>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>來自我的甜蜜夢鄉</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/typing.js"></script>
+
+<!--[if lt IE 9]>
+<script src="https://cdn.jsdelivr.net/npm/html5shiv@3/dist/html5shiv.min.js"></script>
+<![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  
+  <title>VS2019+QGIS+cmake二次开发环境搭建 | Angie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="总共分为以下步骤：   下载qgis和二次开发库 VS2019搭建开发环境-  配置VS2019中的cmake - 配置环境变量    编写测试代码 运行测试代码  拷贝运行程序需要用的动态库文件      参考文档：QGis 二次开发搭建（windows）QGis QgsVectorLayer 图层加载（shp file矢量图层）  1. 开发环境  Win10 ×64 VS2019 OSGeo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS2019+QGIS+cmake二次开发环境搭建">
+<meta property="og:url" content="http://example.com/2021/06/17/VS2019+QGIS+cmake%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="Angie">
+<meta property="og:description" content="总共分为以下步骤：   下载qgis和二次开发库 VS2019搭建开发环境-  配置VS2019中的cmake - 配置环境变量    编写测试代码 运行测试代码  拷贝运行程序需要用的动态库文件      参考文档：QGis 二次开发搭建（windows）QGis QgsVectorLayer 图层加载（shp file矢量图层）  1. 开发环境  Win10 ×64 VS2019 OSGeo">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/lfPEJAr2Rtb4BH1.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/ixZ5CatQBVMg2sH.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/I2l48zOxhBaDNTr.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/VyFg2wp1cdfWxe9.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/qUAVRupgxfr9ajW.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/Vw3I7KDr5ejnGzO.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/PNYmujHJXnhAG9y.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/7OtVUCzkmJ6QPTA.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/4G7aOECwLRlMAtr.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/10/4RSoxvL2iET1GeH.png">
+<meta property="article:published_time" content="2021-06-17T03:30:59.656Z">
+<meta property="article:modified_time" content="2021-06-17T06:48:30.231Z">
+<meta property="article:author" content="matatabimori">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/06/10/lfPEJAr2Rtb4BH1.png">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/typing.css">
+
+  
+<link rel="stylesheet" href="/css/donate.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-VS2019+QGIS+cmake二次开发环境搭建" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <header id="header" class="header">
+  <nav class="mobile-nav">
+    <h1 class="nickname">Angie</h1>
+    <ul class="mobile-nav-menu">
+      <label for="mobile-menu-toggle"><a id="menu-button">&#9776; Menu</a></label>
+      <input type="checkbox" id="mobile-menu-toggle"/>
+      <ul class="mobile-nav-link">
+        
+        <a href="/">Home</a>
+        
+        <a href="/archives">Archives</a>
+        
+        <a href="/about">About</a>
+        
+      </ul>
+    </ul>
+  </nav>
+	
+		<nav id="main-nav" class="main-nav nav-left">
+	
+	
+	  <a class="main-nav-link" href="/">Home</a>
+	
+	  <a class="main-nav-link" href="/archives">Archives</a>
+	
+	  <a class="main-nav-link" href="/about">About</a>
+	
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      VS2019+QGIS+cmake二次开发环境搭建
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry typo" itemprop="articleBody">
+      
+        <p>总共分为以下步骤：</p>
+<ul>
+<li> 下载qgis和二次开发库</li>
+<li>VS2019搭建开发环境<pre><code>-  配置VS2019中的cmake
+- 配置环境变量
+</code></pre>
+</li>
+<li> 编写测试代码</li>
+<li>运行测试代码<ul>
+<li> 拷贝运行程序需要用的动态库文件</li>
+</ul>
+</li>
+</ul>
+<p>  参考文档：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_24423085/article/details/100534259?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-16.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-16.control">QGis 二次开发搭建（windows）</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_24423085/article/details/100251068">QGis QgsVectorLayer 图层加载（shp file矢量图层）</a></p>
+<p> <strong>1. 开发环境</strong></p>
+<ul>
+<li>Win10 ×64</li>
+<li>VS2019</li>
+<li><a target="_blank" rel="noopener" href="https://download.osgeo.org/osgeo4w/osgeo4w-setup-x86_64.exe">OSGeo4W</a></li>
+</ul>
+<p> <strong>2. 下载qgis二次开发SDK</strong><br>打开osgeo4w-setup-x86_64.exe后<br>1.选择advanced install<img src="https://i.loli.net/2021/06/10/lfPEJAr2Rtb4BH1.png" alt="enter image description here"><br>2.选择install from Internet<img src="https://i.loli.net/2021/06/10/ixZ5CatQBVMg2sH.png" alt="enter image description here"><br>3.选择自己的安装路径<br>4.选择一个下载网站<img src="https://i.loli.net/2021/06/10/I2l48zOxhBaDNTr.png" alt="enter image description here"><br>5.选择需要的开发库<br><img src="https://i.loli.net/2021/06/10/VyFg2wp1cdfWxe9.png" alt="enter image description here"><br>首先在上面的搜索栏输入qgis-ltr（qgis长期支持版），搜索结果出来后点击ALL旁边的Default，变成Install。<br><img src="https://i.loli.net/2021/06/10/qUAVRupgxfr9ajW.png" alt="enter image description here"><br><img src="https://i.loli.net/2021/06/10/Vw3I7KDr5ejnGzO.png" alt="enter image description here"><br>完成这一步后清除搜索框的内容，再搜索qgis-dev-deps，重复刚才的步骤，将All点击成Install状态。<br><img src="https://i.loli.net/2021/06/10/PNYmujHJXnhAG9y.png" alt="enter image description here"><br>然后可以一路点击下一步直到安装完成。</p>
+<p> <strong>3. VS2019搭建开发环境</strong></p>
+<p>安装自带cmake插件<br>创建bat文件设置临时环境变量拉起VS，注意set PATH后的路径应写在同一行。<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">::把开发环境设置到当前cmd的环境(仅对cmd生效)</span><br><span class="line"><span class="built_in">set</span> PATH=%PATH%;D:\OSGeo4W64\bin;D:\OSGeo4W64\apps\qgis-ltr\bin;D:\OSGeo4W64\apps\qgis-ltr-dev\bin;D:\OSGeo4W64\apps\Qt5\bin;D:\OSGeo4W64\apps\grass\grass78\bin;D:\OSGeo4W64\apps\gdal-dev\bin;D:\OSGeo4W64\apps\proj-dev\bin;D:\OSGeo4W64\apps\Qt5\plugins\platforms;D:\OSGeo4W64\apps\Qt5\plugins;</span><br><span class="line"> </span><br><span class="line">::设置坐标系相关文件</span><br><span class="line"><span class="built_in">set</span> GDAL_DATA=D:\OSGeo4W64\share\gdal</span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;set env path end:&quot;</span></span><br><span class="line"><span class="built_in">echo</span> ******************************************************************************************</span><br><span class="line"><span class="built_in">echo</span> %PATH%</span><br><span class="line"><span class="built_in">echo</span> ******************************************************************************************</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Start visoual studio 2019&quot;</span></span><br><span class="line">::设置vs启动(路径为：右键打开所在的文件夹直到找到exe执行程序)</span><br><span class="line"><span class="string">&quot;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe&quot;</span></span><br><span class="line"> </span><br><span class="line">::pause&gt;nul</span><br></pre></td></tr></table></figure><br> <strong>4. 编写测试代码</strong></p>
+<p> <strong>文件结构：</strong><br><img src="https://i.loli.net/2021/06/17/7OtVUCzkmJ6QPTA.png" alt="enter image description here"></p>
+<p><strong>顶层CMakeLists.txt</strong><br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cmake_minimum_required (VERSION 3.8)</span><br><span class="line"></span><br><span class="line">add_subdirectory(RADAR_TRAIN_REALTIME_APP)</span><br><span class="line"></span><br><span class="line"><span class="comment">#add_subdirectory(RADAR_TRAIN_HISTORY_APP)</span></span><br></pre></td></tr></table></figure><br><strong>radar_train_realtime.cpp</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;qgis.h&gt;</span></span><br><span class="line"><span class="comment">#include &quot;radar_train_realtime.h&quot;</span></span><br><span class="line"><span class="comment">#include &lt;QApplication&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgis_core.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgis_gui.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsdatasourceuri.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsproviderregistry.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;QDebug&gt;</span></span><br><span class="line"><span class="comment">#include &lt;QSqlDatabase&gt;</span></span><br><span class="line"><span class="comment">#include &lt;QSqlError&gt;</span></span><br><span class="line"><span class="comment">#include &lt;QSqlQuery&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgssinglesymbolrenderer.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsapplication.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;QGraphicsScene&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include  &lt;QGraphicsView&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsproject.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;QFileDialog&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsmapcanvas.h&gt;</span></span><br><span class="line"><span class="comment">#include &quot;qgssymbol.h&quot; </span></span><br><span class="line"><span class="comment">#include &quot;qgsrenderer.h&quot; </span></span><br><span class="line"><span class="comment">#include &lt;qgsapplication.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsproviderregistry.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;qgsvectorlayer.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsrasterlayer.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsmapcanvas.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgssinglesymbolrenderer.h&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;QMessageBox&gt;</span></span><br><span class="line"><span class="comment">#include&lt; qgsmaplayerstore.h &gt;</span></span><br><span class="line"><span class="comment">#include &lt;qgsrasterlayer.h&gt;</span></span><br><span class="line"><span class="comment">#include&lt; qgsmaplayerstore.h &gt;</span></span><br><span class="line"><span class="comment">#include &lt;QDebug&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;qgsmapcanvas.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;qgsmapsettings.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;QgsRasterIdentifyResult.h&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">RadarTrainRealtime::<span class="function"><span class="title">RadarTrainRealtime</span></span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">RadarTrainRealtime::~<span class="function"><span class="title">RadarTrainRealtime</span></span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main(int argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">	QgsApplication myApp(argc, argv, <span class="literal">true</span>);</span><br><span class="line">	myApp.setPrefixPath(<span class="string">&quot;D:\\OSGeo4W64\\apps\\qgis&quot;</span>, <span class="literal">true</span>);     //配置prefix路径</span><br><span class="line">	QgsProviderRegistry::instance(<span class="string">&quot;D:\\OSGeo4W64\\apps\\qgis\\plugins&quot;</span>); //驱动管理</span><br><span class="line"></span><br><span class="line">	QString file(<span class="string">&quot;D:\\BOOKS\\shp\\City.shp&quot;</span>);</span><br><span class="line"></span><br><span class="line">	QList&lt;QgsMapLayer*&gt; listVecLayer;</span><br><span class="line"></span><br><span class="line">	QgsVectorLayer Vectorlayer;						 //矢量图层</span><br><span class="line"></span><br><span class="line">	Vectorlayer.setProviderEncoding(<span class="string">&quot;UTF-8&quot;</span>);        //字符集</span><br><span class="line">	Vectorlayer.setMinimumScale(1.0);				 //设置坐标轴的最小刻度值</span><br><span class="line">	QString layer_name = QFileInfo(file).completeBaseName();</span><br><span class="line">	Vectorlayer.setDataSource(file, layer_name, <span class="string">&quot;ogr&quot;</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">	listVecLayer.append(&amp;Vectorlayer);</span><br><span class="line"></span><br><span class="line">	qDebug() &lt;&lt; <span class="string">Vectorlayer.featureCount();</span></span><br><span class="line"><span class="string">	QgsProject::instance()-&gt;addMapLayers(listVecLayer);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	QgsMapCanvas QGSMC;</span></span><br><span class="line"><span class="string">	QGSMC.setLayers(listVecLayer);</span></span><br><span class="line"><span class="string">	QGSMC.setExtent(Vectorlayer</span>.extent());</span><br><span class="line">	QGSMC.enableAntiAliasing(<span class="literal">true</span>);         //抗锯齿处理</span><br><span class="line">	QGSMC.freeze(<span class="literal">false</span>);</span><br><span class="line">	QGSMC.setDragMode(QGraphicsView::RubberBandDrag);    //拖拽模式</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	QGSMC.setVisible(<span class="literal">true</span>);</span><br><span class="line">	QGSMC.zoomToFullExtent();</span><br><span class="line">	QGSMC.refresh();</span><br><span class="line">	QGSMC.show();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">return</span> myApp.exec();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>第二层CMakeLists.txt</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required (VERSION 3.8)</span><br><span class="line"></span><br><span class="line">project (<span class="string">&quot;RTRAPP&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(CMAKE_AUTOMOC ON)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_AUTORCC ON)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_AUTOUIC ON)</span><br><span class="line"> </span><br><span class="line">SET(QT_USE_QTMAIN TRUE)</span><br><span class="line"> </span><br><span class="line">find_package(Qt5 COMPONENTS Core Widgets Xml Sql REQUIRED)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"><span class="comment">#set(qgis_path &quot;NOT-FOUND&quot; CACHE PATH D:/OSGeo4W64)</span></span><br><span class="line"><span class="built_in">set</span>(qgis_path D:/OSGeo4W64/apps/qgis-ltr)</span><br><span class="line"><span class="built_in">set</span>(osg_path D:/OSGeo4W64)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(qgis_path STREQUAL <span class="string">&quot;NOT-FOUND&quot;</span>)</span><br><span class="line"> message(FATAL_ERROR <span class="string">&quot;need download qgis sdk from Run Geo4w.exe&quot;</span>)</span><br><span class="line">endif()</span><br><span class="line"> message(STATUS <span class="string">&quot;qgis_path &gt;&gt;<span class="variable">$&#123;qgis_path&#125;</span>&quot;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span>(CMAKE_BUILD_RPATH D:/OSGeo4W64)            <span class="comment">#设定cmake_build_path的目录</span></span><br><span class="line">message(STATUS <span class="string">&quot;CMAKE_BUILD_RPATH &gt;&gt;<span class="variable">$&#123;CMAKE_BUILD_RPATH&#125;</span>&quot;</span>)     <span class="comment">#打印目录</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(OSG_INC <span class="string">&quot;<span class="variable">$&#123;osg_path&#125;</span>/include&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(OSG_LIB <span class="string">&quot;<span class="variable">$&#123;osg_path&#125;</span>/lib&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(OSG_BIN <span class="string">&quot;<span class="variable">$&#123;osg_path&#125;</span>/bin&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(QGIS_INC <span class="string">&quot;<span class="variable">$&#123;qgis_path&#125;</span>/include&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(QGIS_LIB <span class="string">&quot;<span class="variable">$&#123;qgis_path&#125;</span>/lib&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(QGIS_BIN <span class="string">&quot;<span class="variable">$&#123;qgis_path&#125;</span>/bin&quot;</span>)</span><br><span class="line"> </span><br><span class="line">message(STATUS <span class="string">&quot;OSG_INC &gt;&gt; <span class="variable">$&#123;OSG_INC&#125;</span>&quot;</span>)</span><br><span class="line">message(STATUS <span class="string">&quot;OSG_LIB &gt;&gt; <span class="variable">$&#123;OSG_LIB&#125;</span>&quot;</span>)</span><br><span class="line">message(STATUS <span class="string">&quot;QGIS_INC &gt;&gt; <span class="variable">$&#123;QGIS_INC&#125;</span>&quot;</span>)</span><br><span class="line">message(STATUS <span class="string">&quot;QGIS_LIB &gt;&gt; <span class="variable">$&#123;QGIS_LIB&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">file(GLOB ALL_LIBS <span class="variable">$&#123;QGIS_LIB&#125;</span>/*.lib)</span><br><span class="line">message(STATUS <span class="string">&quot;ALL_LIBS &gt;&gt;<span class="variable">$&#123;ALL_LIBS&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">file(GLOB ALL_LIBS2 <span class="variable">$&#123;OSG_LIB&#125;</span>/*.lib)</span><br><span class="line">message(STATUS <span class="string">&quot;ALL_LIBS2 &gt;&gt;<span class="variable">$&#123;ALL_LIBS2&#125;</span>&quot;</span>)</span><br><span class="line"> </span><br><span class="line">include_directories(<span class="variable">$&#123;QGIS_INC&#125;</span> D:/OSGeo4W64/apps/Qt5/include) <span class="comment">#头文件的路径 SDK下QGIS目录和自带Qt5的头文件路径</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">link_directories(<span class="variable">$&#123;GIS_LIB&#125;</span>)</span><br><span class="line">link_libraries(<span class="variable">$&#123;ALL_LIBS&#125;</span>)</span><br><span class="line">link_libraries(<span class="variable">$&#123;ALL_LIBS2&#125;</span>)</span><br><span class="line"></span><br><span class="line">add_definitions(-D_USE_MATH_DEFINES)</span><br><span class="line"> </span><br><span class="line">aux_source_directory(<span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span> SRC_ALL)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#add_subdirectory(view)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#add_executable($&#123;PROJECT_NAME&#125; WIN32 $&#123;SRC_ALL&#125;) #no console </span></span><br><span class="line"><span class="comment">#add_executable($&#123;PROJECT_NAME&#125; $&#123;SRC_ALL&#125; $&#123;ALL_UI&#125; &quot;radar_train_realtime.h&quot;   ) # console </span></span><br><span class="line">add_executable(<span class="variable">$&#123;PROJECT_NAME&#125;</span> radar_train_realtime.cpp <span class="variable">$&#123;ALL_UI&#125;</span> ) <span class="comment"># console </span></span><br><span class="line">target_link_libraries(<span class="variable">$&#123;PROJECT_NAME&#125;</span> Qt5::Widgets Qt5::Xml Qt5::Sql)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">file(WRITE <span class="variable">$&#123;RTRAPP_SOURCE_DIR&#125;</span>/bin/pathCmd.cmd </span><br><span class="line"><span class="string">&quot;@echo off</span></span><br><span class="line"><span class="string">set PATH=%PATH%;<span class="variable">$&#123;QGIS_BIN&#125;</span>;D:/OSGeo4W64/apps/Qt5/bin;<span class="variable">$&#123;OSG_BIN&#125;</span>;</span></span><br><span class="line"><span class="string"><span class="variable">$&#123;PROJECT_NAME&#125;</span>.exe</span></span><br><span class="line"><span class="string">echo application begin...</span></span><br><span class="line"><span class="string">::pause&gt;nul&quot;</span></span><br><span class="line">)<span class="comment">#这里生成一个cmd脚本用于拉起exe。在VS开发下可能不太方便调试。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">install(TARGETS <span class="variable">$&#123;PROJECT_NAME&#125;</span></span><br><span class="line">  RUNTIME DESTINATION <span class="variable">$&#123;RTRAPP_SOURCE_DIR&#125;</span>/bin</span><br><span class="line">  ARCHIVE DESTINATION <span class="variable">$&#123;RTRAPP_SOURCE_DIR&#125;</span>/lib</span><br><span class="line">  LIBRARY DESTINATION <span class="variable">$&#123;RTRAPP_SOURCE_DIR&#125;</span>/lib)</span><br><span class="line"> </span><br><span class="line">install(DIRECTORY <span class="variable">$&#123;CMAKE_BUILD_RPATH&#125;</span> DESTINATION <span class="variable">$&#123;RTRAPP_SOURCE_DIR&#125;</span>/bin FILES_MATCHING PATTERN <span class="string">&quot;*.cmd&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>使用release版本执行编译</strong>，即可生成”RTRAPP.exe”和pathCmd.cmd。</p>
+<p> <strong>5. 运行测试代码</strong><br> 如果此时双击运行可执行文件，会报缺少很多dll文件的错误，因为需要将Qt5依赖的文件拷贝到项目文件目录下。将<br>D:\OSGeo4W\apps\qgis\bin<br>D:\OSGeo4W\bin<br>D:\OSGeo4W\apps\Qt5\bin<br>目录下dll文件拷贝到工程Release目录下<br>还是有可能会缺dll文件，就需要用到Qt5自带的“windeployqt.exe”程序，可以用如下方法添加：</p>
+<ol>
+<li>把“D:\OSGeo4W64\apps\Qt5\bin”添加到系统的环境变量的path中。</li>
+<li>打开VS 2019开发人员cmd窗口，输入命令windeployqt [exe文件的路径]，比如我的是“windeployqt D:\BOOKS\VSProject\RADAR_TRAIN\RADAR_TRAIN_REALTIME_APP\bin\RTRAPP.exe”，按下回车就完成了资源拷贝。如图所示：<br><img src="https://i.loli.net/2021/06/10/4G7aOECwLRlMAtr.png" alt="enter image description here"></li>
+</ol>
+<p>完成拷贝后再运行测试程序就能正常运行。<br><img src="https://i.loli.net/2021/06/10/4RSoxvL2iET1GeH.png" alt="enter image description here"></p>
+
+      
+      
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2021/06/17/VS2019+QGIS+cmake%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" class="article-date">
+  <time class="dt-published" datetime="2021-06-17T03:30:59.656Z" itemprop="datePublished">2021-06-17</time>
+</a>
+
+        </li>
+        
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2021/06/10/QGIS%E5%BC%80%E5%8F%91%E5%BA%93+VS2019%E6%90%AD%E5%BB%BA%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">VS2019+QGIS开发库二次开发环境搭建</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>來自我的甜蜜夢鄉</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/typing.js"></script>
+
+<!--[if lt IE 9]>
+<script src="https://cdn.jsdelivr.net/npm/html5shiv@3/dist/html5shiv.min.js"></script>
+<![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
